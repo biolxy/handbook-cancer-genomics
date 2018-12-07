@@ -2,7 +2,11 @@
 
 # 第一章
 
+{:toc}
+
 　　Illumina测序仪下机的数据通常为bcl格式，是将同一个测序通道（Lane）所有样品的数据混杂在一起的，Bcl文件，本质上是一个巨大图片。使用Illumina官方出品的Bcl2FastQ软件，可将bcl文件转换为fastq文件（依旧是多个sample的混合文件），再根据Index序列（一般为6个base的序列），将其拆分为单个样品的FastQ文件。
+
+##  一、数据格式转化
 
 拆分的过程需要如下几个文件：
 
@@ -33,8 +37,10 @@
   
   ```
 
+## 二、Fastq拆分
 
 
-## 参考
+
+# 参考
 
 - http://bioinformatics.cvr.ac.uk/blog/tag/bcl2fastq/
