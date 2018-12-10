@@ -8,36 +8,23 @@
 
 ##  一、Illumina下机数据格式转化
 
-拆分的过程需要如下几个文件：
+示例：下机的数据为`180612_NB502066_0002_AH2CC7AFXY`
 
-- 原始数据文件夹： `180612_NB502066_0002_AH2CC7AFXY`
+其格式为：
 
-  ```shell
-  $ le 180612_NB502066_0002_AH2CC7AFXY
-        1 总用量 96
-        2 drwxrwxr-x  9 lixy bioinf_group  4096 6月  13 17:40 ./
-        3 drwxrwxr-x 58 lixy bioinf_group  4096 12月  5 10:37 ../
-        4 drwxr-xr-x  2 lixy bioinf_group  4096 6月  13 09:10 Config/
-        5 drwxr-xr-x  3 lixy bioinf_group  4096 6月  13 09:10 Data/
-        6 drwxr-xr-x  3 lixy bioinf_group  4096 6月  13 09:15 Images/
-        7 drwxr-xr-x  2 lixy bioinf_group  4096 6月  13 09:53 InterOp/
-        8 drwxr-xr-x  2 lixy bioinf_group  4096 6月  13 09:15 Logs/
-        9 drwxr-xr-x  2 lixy bioinf_group  4096 6月  13 09:15 Recipe/
-       10 -rwxr--r--  1 lixy bioinf_group    46 6月  13 02:57 RTAComplete.txt*
-       11 -rwxr--r--  1 lixy bioinf_group  5712 6月  13 02:57 RTAConfiguration.xml*
-       12 drwxr-xr-x  2 lixy bioinf_group  4096 6月  13 09:15 RTALogs/
-       13 -rwxr--r--  1 lixy bioinf_group    36 6月  13 02:57 RTARead1Complete.txt*
-       14 -rwxr--r--  1 lixy bioinf_group    36 6月  13 02:57 RTARead2Complete.txt*
-       15 -rwxr--r--  1 lixy bioinf_group    36 6月  13 02:57 RTARead3Complete.txt*
-       16 -rwxr--r--  1 lixy bioinf_group    36 6月  13 02:57 RTARead4Complete.txt*
-       17 -rwxr--r--  1 lixy bioinf_group   928 6月  13 04:57 RunCompletionStatus.xml*
-       18 -rwxr--r--  1 lixy bioinf_group 10195 6月  13 02:57 RunInfo.xml*
-       19 -rwxr--r--  1 lixy bioinf_group 11386 6月  13 02:57 RunParameters.xml*
-       20 -rwxrw-r--  1 root   root           872 6月  13 17:40 SampleSheet.csv*
-  
-  ```
+![v2-baa5b25d76daa132a9ed2dc8e46dd02f_hd](bcl_format.jpg)
 
-未完……
+**illumina官方指导手册：**
+
+- https://support.illumina.com/sequencing/sequencing_software/bcl2fastq-conversion-software.html
+
+**command：**
+
+```shell
+nohup bcl2fastq  --input-dir 180612_NB502066_0002_AH2CC7AFXY/Data/Intensities/BaseCalls  -o fastq/180612_NB502066_0002_AH2CC7AFXY  --sample-sheet  wetlab/SampleSheet/180612_NB502066_0002_AH2CC7AFXY.csv --barcode-mismatches 1>log 2>&1  & 
+```
+
+其中 `180612_NB502066_0002_AH2CC7AFXY.csv`需要由湿实验室人员提供。
 
 ## 二、Fastq格式介绍
 
@@ -79,12 +66,23 @@ sed -e 'n;n;n;y/!"#$%&'\''()*+,-.\/0123456789:;<=>?@ABCDEFGHIJKL/▁▁▁▁▁
 
 ## 四、 fastq文件的拆分
 
-从bcl转换而来的fastq是一个混合了多个样本的fastq文件，为了区分各样本，在建库的时候引入了index，为不同样本加上不同的，拆分是可通过 index 将其区分，最后生成各样本单独的index。
+为了节约成本，测序通常为混合测序，测序仪器不过的信号也是多个样本混合的结果，为了区分各样本，在建库的时候引入了barcode index ，为不同样本加上不同的barcode index ，拆分是可通过 index 将其区分，最后生成各样本单独的index。bcl2fastq可以在转化信号格式的时候直接获得拆分过的各sample 的 fastq文件。
 
-- index 
-
+- barcode index 
 - adapter
+
+对一份未拆分的fastq文件，可通过如下文件，实现拆分
+
+相关软件：
+
+- seqtk_demultiplex 
+
+- fastq-multx
+
+
 
 # 参考
 
 - http://bioinformatics.cvr.ac.uk/blog/tag/bcl2fastq/
+- http://bioinformatics.cvr.ac.uk/blog/how-to-generate-a-sample-sheet-from-sampleindex-data-in-basespace/
+- https://www.plob.org/article/14515.html
