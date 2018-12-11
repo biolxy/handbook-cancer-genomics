@@ -69,6 +69,18 @@ sed -e 'n;n;n;y/!"#$%&'\''()*+,-.\/0123456789:;<=>?@ABCDEFGHIJKL/▁▁▁▁▁
 - barcode index 
 - adapter
 
+### barcode 是样品标签
+
+> 由于测序仪器的测序能力远大于测试样本序列量，为避免仪器浪费，因此一个lane同时测定多个样品成为很自然的思路。然而为了区分多种样品的序列，就必须要给不同样品加上特定的“标签”，从而可以在后续数据分析时将不同样品数据分开，而这个“标签”就是barcode。简言之，barcode就是测序中混合样品的”身份证“，用于区分不同样品。
+>
+> [1]: https://vip.biotrainee.com/d/65-barcode-index	"二代测序的barcode/index"
+更详细的解释请参看：
+- [Multiplexed Illumina sequencing libraries from picogram quantities of DNA](https://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-14-466)
+
+### adapter 是啥
+
+### fastq文件拆分软件
+
 对一份未拆分的fastq文件，可通过如下文件，实现拆分
 
 相关软件：
@@ -79,8 +91,11 @@ sed -e 'n;n;n;y/!"#$%&'\''()*+,-.\/0123456789:;<=>?@ABCDEFGHIJKL/▁▁▁▁▁
 
 
 
-# 参考
+# 引用参考
 
-- http://bioinformatics.cvr.ac.uk/blog/tag/bcl2fastq/
-- http://bioinformatics.cvr.ac.uk/blog/how-to-generate-a-sample-sheet-from-sampleindex-data-in-basespace/
-- https://www.plob.org/article/14515.html
+[1]: http://bioinformatics.cvr.ac.uk/blog/tag/bcl2fastq/	"How to demultiplex Illumina data and generate fastq files using bcl2fastq"
+[2]: http://bioinformatics.cvr.ac.uk/blog/how-to-generate-a-sample-sheet-from-sampleindex-data-in-basespace/	"How to generate a Sample Sheet from sample/index data in BaseSpace"
+[3]: https://www.plob.org/article/14515.html	"根据Barcode序列拆分fastq文件"
+
+
+
