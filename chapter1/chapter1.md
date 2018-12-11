@@ -46,21 +46,19 @@ fastq文件中，每隔4行可以看作一个单位，其中第二行表示测�
 不同测序平台给定的质量编码表示不同，各平台间测序质量换算如下：
 
 ```shell
-Command line conversions
-FASTQ to FASTA format:
-
+# Command line conversions FASTQ to FASTA format:
 zcat input_file.fastq.gz | awk 'NR%4==1{printf ">%s\n", substr($0,2)}NR%4==2{print}' > output_file.fa
-Illumina FASTQ 1.8 to 1.3
 
+# Illumina FASTQ 1.8 to 1.3
 sed -e '4~4y/!"#$%&'\''()*+,-.\/0123456789:;<=>?@ABCDEFGHIJ/@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghi/' myfile.fastq   # add -i to save the result to the same input file
-Illumina FASTQ 1.3 to 1.8
 
+# Illumina FASTQ 1.3 to 1.8
 sed -e '4~4y/@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghi/!"#$%&'\''()*+,-.\/0123456789:;<=>?@ABCDEFGHIJ/' myfile.fastq   # add -i to save the result to the same input file
-Illumina FASTQ 1.8 raw quality to binned quality (HiSeq Qtable 2.10.1, HiSeq 4000 )
 
+# Illumina FASTQ 1.8 raw quality to binned quality (HiSeq Qtable 2.10.1, HiSeq 4000 )
 sed -e '4~4y/!"#$%&'\''()*+,-.\/0123456789:;<=>?@ABCDEFGHIJKL/))))))))))----------77777<<<<<AAAAAFFFFFJJJJ/' myfile.fastq   # add -i to save the result to the same input file
-Illumina FASTQ 1.8 raw quality to clinto format (a visual block representation)
 
+# Illumina FASTQ 1.8 raw quality to clinto format (a visual block representation)
 sed -e 'n;n;n;y/!"#$%&'\''()*+,-.\/0123456789:;<=>?@ABCDEFGHIJKL/▁▁▁▁▁▁▁▁▂▂▂▂▂▃▃▃▃▃▄▄▄▄▄▅▅▅▅▅▆▆▆▆▆▇▇▇▇▇██████/' myfile.fastq   # add -i to save the result to the same input file
 ```
 
