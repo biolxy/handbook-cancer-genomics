@@ -1,6 +1,6 @@
 # Summary  
-* [编者序](README.md)  
-
+- [编者序](README.md)  
+- [第零章 建库及测序相关知识](./chapter0/chapter0.md)
 - [第一章 数据下机后的拆分](./chapter1/chapter1.md)
 - [第二章 基因序列比对](./chapter2/chapter2.md)
 - [第三章 基因变异分析](./chapter3/chapter3.md)
