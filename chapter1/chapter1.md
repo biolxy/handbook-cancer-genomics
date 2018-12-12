@@ -64,10 +64,10 @@ sed -e 'n;n;n;y/!"#$%&'\''()*+,-.\/0123456789:;<=>?@ABCDEFGHIJKL/▁▁▁▁▁
 
 ## 四、 fastq文件的拆分
 
-为了节约成本，测序通常为混合测序，测序仪器不过的信号也是多个样本混合的结果，为了区分各样本，在建库的时候引入了barcode index ，为不同样本加上不同的barcode index ，拆分是可通过 index 将其区分，最后生成各样本单独的index。bcl2fastq可以在转化信号格式的时候直接获得拆分过的各sample 的 fastq文件。
+为了节约成本，测序通常为混合测序，测序仪器不过的信号也是多个样本混合的结果，为了区分各样本，在建库的时候引入了barcode index ，为不同样本加上不同的barcode index ，拆分是可通过 index 将其区分，最后生成各样本单独的index。**bcl2fastq可以在转化信号格式的时候直接获得拆分过的各sample的 fastq文件**。
 
 - barcode index 
-- adapter
+- adapter(这个留在指控环节再讲)
 
 ### 1. barcode 是样品标签
 
@@ -78,9 +78,7 @@ sed -e 'n;n;n;y/!"#$%&'\''()*+,-.\/0123456789:;<=>?@ABCDEFGHIJKL/▁▁▁▁▁
 更详细的解释请参看：
 - [Multiplexed Illumina sequencing libraries from picogram quantities of DNA](https://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-14-466)
 
-### 2. adapter 是啥
-
-### 3. fastq文件拆分软件
+### 2. fastq文件拆分软件
 
 对一份未拆分的fastq文件，可通过如下文件，实现拆分
 
@@ -88,7 +86,7 @@ sed -e 'n;n;n;y/!"#$%&'\''()*+,-.\/0123456789:;<=>?@ABCDEFGHIJKL/▁▁▁▁▁
 
 - seqtk_demultiplex 
 
-- fastq-multx
+- [fastq-multx](https://github.com/brwnj/fastq-multx.git)
 
 
 
