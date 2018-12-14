@@ -1,5 +1,3 @@
-# chapter1
-
 # 第一章 数据下机后的拆分
 
 {:toc}
@@ -35,15 +33,68 @@ nohup bcl2fastq  --input-dir 180612_NB502066_0002_AH2CC7AFXY/Data/Intensities/Ba
 - 中文： https://zh.wikipedia.org/wiki/FASTQ%E6%A0%BC%E5%BC%8F
 - 英文： https://en.wikipedia.org/wiki/FASTQ_format
 
-fastq文件中，每隔4行可以看作一个单位，其中第二行表示测到的碱基(A,T,C,G,N 其中N表示任意核酸Nucleic acid)，第四行表示对应碱基位置测序的信号强弱，也就是碱基质量，总体上是越高越好。
+fastq 文件中，每隔4行可以看作一个单位，其中:
+
+>- 第1行主要储存序列测序时的坐标等信息
+>
+>```text
+>@ST-E00126:128:HJFLHCCXX:2:1101:7405:1133
+>
+>@	开始的标记符号			
+>ST-E00126:128:HJFLHCCXX	测序仪唯一的设备名称
+>2	lane的编号				
+>1101	tail的坐标
+>7405	在tail中的X坐标
+>1133	在tail中的Y坐标
+>```
+>
+>- 第2行就是测序得到的序列信息，一般用ATCGN来表示，其中N表示荧光信号干扰无法判断到底是哪个碱基。
+>- 第3行以“+”开始，可以储存一些附加信息，一般是空的。
+>- 第4行储存的是质量信息，与第2行的碱基序列是一一对应的，其中的每一个符号对应的ASCII值成为phred值，可以简单理解为对应位置碱基的质量值，越大说明测序的质量越好。不同的版本对应的不同。
+>
+>--[FASTA 与 FASTQ格式详解](https://zhuanlan.zhihu.com/p/20714540)
+
+### 1. 详细谈谈FASTQ质量值的计算方法
+
+在测序仪进行测序的时候，会自动根据荧光信号的强弱给出一个参考的测序错误概率（error probility，P）根据定义来说，P值肯定是越小越好。我们怎么储存他们呢？直接储存成小数点？比如1%储存成0.01？这肯定是不高效的，因为1个碱基的信息，占用了至少4个字符。
+
+所以科学家们的做法想了一个办法：
+
+1.将P取log10之后再乘以-10，得到的结果为Q。
+
+```text
+比如，P=1%，那么对应的Q=-10*log10(0.01)=20
+```
+
+2.把这个Q加上33或者64转成一个新的数值，称为Phred，最后把Phred对应的ASCII字符对应到这个碱基。
+
+```text
+如Q=20，Phred = 20 + 33 = 53，对应的符号是”5”
+```
+
+- [ASCII对照表](https://zh.wikipedia.org/wiki/ASCII)
 
 
 
-## 三、不同质量编码标示之间的换算
+### 2. 各版本不同Phred对应的ASCII值
 
-![1544426946819](quality.png)
+在计算Q值和加上33/64的时候，不同测序仪，产生的数据不同，大概如下所示：
 
-不同测序平台给定的质量编码表示不同，各平台间测序质量换算如下：
+- Solexa标准
+
+![img](https://pic1.zhimg.com/80/7c8a097bae1ce81dcb0d054e0768b9a0_hd.png)
+
+- Illumina标准
+
+
+
+![img](https://pic1.zhimg.com/80/fadfed3901d81df334b94711e7e646a4_hd.png)
+
+### 3. 不同测序仪的不同Phred值对应的ASCII表，及其换算
+
+![维基百科](quality.png)
+
+不同测序平台给定的Phred值不同，各平台间测序质量换算如下：
 
 ```shell
 # Command line conversions FASTQ to FASTA format:
@@ -62,7 +113,7 @@ sed -e '4~4y/!"#$%&'\''()*+,-.\/0123456789:;<=>?@ABCDEFGHIJKL/))))))))))--------
 sed -e 'n;n;n;y/!"#$%&'\''()*+,-.\/0123456789:;<=>?@ABCDEFGHIJKL/▁▁▁▁▁▁▁▁▂▂▂▂▂▃▃▃▃▃▄▄▄▄▄▅▅▅▅▅▆▆▆▆▆▇▇▇▇▇██████/' myfile.fastq   # add -i to save the result to the same input file
 ```
 
-## 四、 fastq文件的拆分
+## 三、 fastq文件的拆分
 
 为了节约成本，测序通常为混合测序，测序仪器不过的信号也是多个样本混合的结果，为了区分各样本，在建库的时候引入了barcode index ，为不同样本加上不同的barcode index ，拆分是可通过 index 将其区分，最后生成各样本单独的index。**bcl2fastq可以在转化信号格式的时候直接获得拆分过的各sample的 fastq文件**。
 
@@ -94,6 +145,7 @@ sed -e 'n;n;n;y/!"#$%&'\''()*+,-.\/0123456789:;<=>?@ABCDEFGHIJKL/▁▁▁▁▁
 
 - [How to demultiplex Illumina data and generate fastq files using bcl2fastq](http://bioinformatics.cvr.ac.uk/blog/tag/bcl2fastq/)
 - [How to generate a Sample Sheet from sample/index data in BaseSpace](http://bioinformatics.cvr.ac.uk/blog/how-to-generate-a-sample-sheet-from-sampleindex-data-in-basespace/)
-
 - [根据Barcode序列拆分fastq文件](https://www.plob.org/article/14515.html)
 - [ 二代测序的barcode/index]( https://vip.biotrainee.com/d/65-barcode-index)
+- [FASTA 与 FASTQ格式详解](https://zhuanlan.zhihu.com/p/20714540)
+

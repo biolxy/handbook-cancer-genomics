@@ -8,4 +8,5 @@
 - [第五章 变异注释](./chapter5/chapter5.md)
 - [第六章 变异解读](./chapter6/chapter6.md)
 - [第七章 自动化报告](./chapter7/chapter7.md)
+- [第八章 其他](./chapter8/chapter8.md)
 

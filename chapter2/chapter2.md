@@ -1,10 +1,31 @@
 # 第二章 基因序列比对
 
+{:toc}
+
+
+
 ## 一、 数据质控(quality control)
 
-- 什么是reads
+直接由bcl序列转化而来的fastq文件，此时被称为原始数据。
+
+在第一章中介绍了fastq文件的格式，其中每第四行代表这其对应read的测序质量，由于种种原因，我们获得原始获数据中包含一下低质量的reads，为了保证后续分析的准确性，我们需要将这些reads剔除。
+
+### 1. 查看fastq文件的总体测序质量
+
+- [从零开始完整学习全基因组测序数据分析：第3节 数据质控](https://zhuanlan.zhihu.com/p/28802083)
+
+推荐软件
+
+- fastq 查看数据质量
+- **fastp** 查看数据质量
+  - 同时实现 去接头，trim，去低质量序列等功能
+  - 相当与  NGSQCToolkit + trimmomatic 等
+
+### 
+
 - 质量控制 quality control
-- adapter
+- 去 adapter
+- UMI
 
 ## 二、短Reads比对软件
 
@@ -16,7 +37,7 @@
 >
 > --[从双序列比对开始学起](https://zhuanlan.zhihu.com/p/35123295)
 
-因为测序的原因，我们测得的序列(sequence)的长度，通常较短，具体长度和测序仪相关，目前比较常见的是NGS高通量测序的数据，测序长度通常在150bp左右，此时我们需要。
+因为测序的原因，我们测得的序列(sequence)的长度，通常较短，具体长度和测序仪相关，目前比较常见的是NGS（next generation sequencing，NGS）下一代测序技术的数据，测序长度通常在150bp左右，此时我们需要使用mapping 软件，将这些短的片段回帖到参考基因组上。
 
 ### 	2. 常见的短reads mapping软件
 
