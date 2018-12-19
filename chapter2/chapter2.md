@@ -38,7 +38,7 @@
 - 测序错误
 
   -  Illumina 测序仪自身出错的几率， 0.2%
-  -  ![1545213817803](C:\github\handbook-cancer\chapter2\error_rate.png)
+  -  ![1545213817803](error_rate.png)
   -  不同平台，不同测序仪也各不相同
 
 - 系统误差
