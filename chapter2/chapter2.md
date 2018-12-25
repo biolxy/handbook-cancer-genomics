@@ -112,16 +112,17 @@
 **备注：**
 
 - **SOAP**, Short Oligonucleotide Analysis Package;
-
 - **MAQ**, Mapping and Assembly with Quality;
-
 - **BLAT**, BLAST-like alignment tool;
-
 - **BWA**, Burrows-Wheeler Alignment;
-
 - **BFAST**, BLAT-like Fast Accurate Search Tool;
-
 - **SHRiMP**, The Short-Read Mapping Package.
+
+**RNA mapping 常用软件：**
+
+GSNAP，STAMPY，STAR，HISAT2，Bowtie2
+
+> Bowtie2和HISAT2用FM-index，而GSNAP，STAMP和STAR是运用哈希表和后缀数组算法
 
 目前
 
