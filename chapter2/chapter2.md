@@ -127,12 +127,21 @@ GSNAP，STAMPY，STAR，HISAT2，Bowtie2
 目前
 
 - 对于ChIP-seq, RNA-seq，多使用bowtie2，因为它快速，下游结合cufflinks等结果验证率很高。
-
 - 对于SNP，Indels，CNV， methylation分析，使用BWA，下游结合GATK可能会好一点。
-
 - [来自](https://www.plob.org/article/7181.html)
 
-  ### 3. bam 和 sam 文件格式
+
+
+>RNA-Seq数据比对和DNA-Seq数据比对有什么差异？
+> RNA-Seq数据分析分为很多种，比如说找差异表达基因或寻找新的可变剪切。如果找差异表达基因单纯只需要确定不同的read计数就行的话，我们可以用bowtie, bwa这类比对工具，或者是salmon这类align-free工具，并且后者的速度更快。
+>
+>但是如果你需要找到新的isoform，或者RNA的可变剪切，看看外显子使用差异的话，你就需要TopHat, HISAT2或者是STAR这类工具用于找到剪切位点。因为RNA-Seq不同于DNA-Seq，DNA在转录成mRNA的时候会把内含子部分去掉。所以mRNA反转的cDNA如果比对不到参考序列，会被分开，重新比对一次，判断中间是否有内含子。
+>
+>作者：hoptop
+>
+>链接：https://www.jianshu.com/p/681e02e7f9af
+
+### 3. bam 和 sam 文件格式
 
 - bam 和 sam 文件格式介绍
 
@@ -140,7 +149,6 @@ GSNAP，STAMPY，STAR，HISAT2，Bowtie2
   - sam为文本文件
   - [sam,bam格式介绍详细](http://boyun.sh.cn/bio/wp-content/uploads/2012/07/SAM1.pdf)
   - [The Sequence Alignment/Map format and SAMtools](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2723002/)
-
 - 创建 bam index
   - samtools
   - sambamba
