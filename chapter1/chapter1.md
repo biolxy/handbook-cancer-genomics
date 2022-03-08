@@ -19,7 +19,7 @@
 **command：**
 
 ```shell
-nohup bcl2fastq  --input-dir 180612_NB502066_0002_AH2CC7AFXY/Data/Intensities/BaseCalls  -o fastq/180612_NB502066_0002_AH2CC7AFXY  --sample-sheet  wetlab/SampleSheet/180612_NB502066_0002_AH2CC7AFXY.csv --barcode-mismatches 1>log 2>&1  & 
+nohup bcl2fastq  -R 180612_NB502066_0002_AH2CC7AFXY/Data/Intensities/BaseCalls  -o fastq/180612_NB502066_0002_AH2CC7AFXY  --sample-sheet  wetlab/SampleSheet/180612_NB502066_0002_AH2CC7AFXY.csv --barcode-mismatches 1>log 2>&1  & 
 ```
 
 其中 `180612_NB502066_0002_AH2CC7AFXY.csv`需要由湿实验室人员提供。
